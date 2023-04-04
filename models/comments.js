@@ -11,6 +11,9 @@ Comments.init(
       allowNull: false
     }
   }
+  {
+    sequelize
+  }
 );
 
 module.exports = Comments;

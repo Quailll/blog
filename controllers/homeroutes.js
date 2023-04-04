@@ -1,4 +1,4 @@
-const router = require('router').Router();
+const router = require('express').Router();
 
 
 router.get('/', async (req, res) => {

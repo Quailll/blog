@@ -1,6 +1,9 @@
 const router = require('express').Router();
-const 
+const
 
 router.get('/', async (req, res) =>{
-  res.render('all')
-})
+
+  res.render()
+});
+
+module.exports = router

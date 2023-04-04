@@ -13,7 +13,7 @@ Post.hasMany(Comments, {
 
 Comments.belongsTo(Users, {
   foreignKey: 'user_id'
-})
+});
 
 module.exports = {
   Users,
