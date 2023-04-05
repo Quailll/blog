@@ -1,13 +1,17 @@
-const { Sequelize, Model, DataTypes } = require("sequelize");
-const sequelize = require("../config/connection");
+const router = require("express").Router();
+const { Comment } = require("../../models/");
+const withAuth = require("../../utils/auth");
 
-class Comments extends Model {}
-
-Comments.init(
-  {
-    body: {
-      type: DataTypes.STRING 
-      allowNull: false 
-    }
+router.post("/", withAuth, async (req, res) => {
+  try {
+    const createComment = await Comment.create({
+      ...req.body,
+      userId: req.session.userId,
+    });
+    res.json(createComment);
+  } catch (err) {
+    res.status(500).json(err);
   }
-)
+});
+
+module.exports = router;
