@@ -1,6 +1,5 @@
-const { Sequelize, Model, DataTypes } =
-require('sequelize');
-const sequelize = require('../config/connection')
+const { Sequelize, Model, DataTypes } = require("sequelize");
+const sequelize = require("../config/connection");
 
 class Comments extends Model {}
 
@@ -8,11 +7,11 @@ Comments.init(
   {
     body: {
       type: DataTypes.STRING,
-      allowNull: false
-    }
-  }
+      allowNull: false,
+    },
+  },
   {
-    sequelize
+    sequelize,
   }
 );
 
