@@ -1,0 +1,13 @@
+<div class="card">
+  {{#each post}}
+  <div class="card-header">
+    <h2>
+      <a href="/post/{{id}}"></a>
+    </h2>
+  </div>
+  <div class="card-body">
+    <h5 class="card-title">{{title}}</h5>
+    <p class="card-text">{{body}}</p>
+  </div>
+  {{/each}}
+</div>

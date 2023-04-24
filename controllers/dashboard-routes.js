@@ -1,18 +1,18 @@
 const router = require("express").Router();
-const { Post } = require("../models/");
-const withAuth = require("../utils/auth");
+const { Post } = require("../models");
+const auth = require("../utils/auth");
 
-router.get("/", withAuth, async (req, res) => {
+router.get("/", auth, async (req, res) => {
   try {
-    const postAll = await Post.findAll({
+    const allPost = await Post.findAll({
       where: {
         userId: req.session.userId,
       },
     });
 
-    const posts = postAll.map((post) => post.get({ plain: true }));
+    const posts = allPost.map((post) => post.get({ plain: true }));
 
-    res.render("all-posts-user", {
+    res.render("all-post-user", {
       layout: "dashboard",
       posts,
     });
@@ -21,18 +21,18 @@ router.get("/", withAuth, async (req, res) => {
   }
 });
 
-router.get("/new", withAuth, (req, res) => {
+router.get("/new", auth, (req, res) => {
   res.render("new-post", {
     layout: "dashboard",
   });
 });
 
-router.get("/edit/:id", withAuth, async (req, res) => {
+router.get("/edit/:id", auth, async (req, res) => {
   try {
-    const postId = await Post.findByPk(req.params.id);
+    const postID = await Post.findByPk(req.params.id);
 
-    if (postId) {
-      const post = postId.get({ plain: true });
+    if (postID) {
+      const post = postID.get({ plain: true });
 
       res.render("edit-post", {
         layout: "dashboard",
