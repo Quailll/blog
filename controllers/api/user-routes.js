@@ -20,32 +20,34 @@ router.post("/", async (req, res) => {
   }
 });
 
-router.post("/login", async (req, res) => {
+router.post("/login", (req, res) => {
   try {
-    const userLogin = await Users.findOne({
-      where: { username: req.body.username,},
+    Users.findOne({
+      where: { username: req.body.username },
+    }).then((userLogin) => {
+      if (!userLogin) {
+        res
+          .status(400)
+          .json({ message: "Username is incorrect or not found!" });
+        return;
+      }
+      const checkPassword = userLogin.checkPassword(req.body.password);
+
+      if (!checkPassword) {
+        res.status(400).json({ message: "Password is incorrect!" });
+        return;
+      }
+
+      req.session.save(() => {
+        req.session.userId = userLogin.id;
+        req.session.username = userLogin.username;
+        req.session.loggedIn = true;
+
+        res.json({ user, message: "Login Successful!" });
+      });
     });
-    if (!userLogin) {
-      res.status(400).json({ message: "Username is incorrect or not found!"});
-      return;
-    }
-    const checkPassword = userLogin.checkPassword(req.body.password);
-
-    if (!checkPassword) {
-      res.status(400).json({ message: "Password is incorrect!"});
-      return;
-    }
-
-     req.session.save(() => {
-      req.session.userId = userLogin.id;
-      req.session.username = userLogin.username;
-      req.session.loggedIn = true;
-
-      res.json({ user, message: "Login Successful!" });
-     });
-
   } catch (err) {
-    res.status(400).json({ message: "Username is incorrect or not found!"});
+    res.status(400).json({ message: "Username is incorrect or not found!" });
   }
 });
 
