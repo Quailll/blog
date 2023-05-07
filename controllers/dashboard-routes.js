@@ -2,16 +2,16 @@ const router = require("express").Router();
 const { Post } = require("../models");
 const withAuth = require("../utils/auth");
 
-router.get("/", withAuth, async (req, res) => {
+router.get("/",  withAuth, async (req, res) => {
   try {
     const allPost = await Post.findAll({
-      where: {
-        userId: req.session.userId,
-      },
+      where:{
+        user_id: req.session.userId,
+    }
     });
 
     const posts = allPost.map((post) => post.get({ plain: true }));
-
+    
     res.render("all-post-user", {
       layout: "dashboard",
       posts
@@ -19,7 +19,7 @@ router.get("/", withAuth, async (req, res) => {
   } catch (err) {
     res.redirect("login");
   }
-});
+})
 
 router.get("/new", withAuth, (req, res) => {
   res.render("new-post", {

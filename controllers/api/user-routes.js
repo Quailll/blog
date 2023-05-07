@@ -7,11 +7,11 @@ router.post("/", async (req, res) => {
       username: req.body.username,
       password: req.body.password,
     });
-
+    
+    req.session.userId = createUser.id;
+    req.session.username = createUser.username;
+    req.session.loggedIn = true;
     req.session.save(() => {
-      req.session.userId = createUser.id;
-      req.session.username = createUser.username;
-      req.session.loggedIn = true;
 
       res.json(createUser);
     });
@@ -43,7 +43,7 @@ router.post("/login", (req, res) => {
         req.session.username = userLogin.username;
         req.session.loggedIn = true;
 
-        res.json({ user, message: "Login Successful!" });
+        res.json({ userLogin, message: "Login Successful!" });
       });
     });
   } catch (err) {
